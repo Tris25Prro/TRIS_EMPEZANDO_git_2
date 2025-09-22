@@ -20,7 +20,8 @@ app.get("/", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });*/
-const express = require("express");
+
+/*const express = require("express");
 const admin = require("firebase-admin");
 const cors = require("cors");
 const app = express();
@@ -103,4 +104,46 @@ app.get("/libros/ver", async (req, res) => {
 });
 
 // Conexión al servidor
-const PORT = 3000;app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));
+const PORT = 3000;app.listen(PORT, () => console.log(`Servidor corriendo en http://localhost:${PORT}`));*/
+
+const express = require("express");
+const admin = require("firebase-admin");
+const cors = require("cors");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// Inicializar Firebase
+const serviceAccount = require("./firebase-key.json");
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+// Exportar db para usar en las rutas
+const db = admin.firestore();
+module.exports = db;
+
+// Importar rutas
+const librosRoutes = require("./routes/LIBROS.JS");
+const usuariosRoutes = require("./routes/USUARIOS.JS"); // ejemplo de otra tabla
+const multasRoutes = require("./routes/MULTAS.JS"); // ejemplo de otra tabla
+const prestamosRoutes = require("./routes/PRESTAMOS.JS"); // ejemplo de otra tabla
+const reservasRoutes = require("./routes/AUTORES.JS"); // ejemplo de otra tabla
+
+// Usar rutas
+app.use("/libros", librosRoutes);
+app.use("/usuarios", usuariosRoutes);
+app.use("/multas", multasRoutes);
+app.use("/prestamos", prestamosRoutes);
+app.use("/autores", reservasRoutes);
+
+app.get("/", (req, res) => {
+  res.send("Servidor corriendo con Firebase y rutas separadas 🚀");
+});
+
+// Conexión al servidor
+const PORT = 3000;
+app.listen(PORT, () =>
+  console.log(`Servidor corriendo en http://localhost:${PORT}`)
+);

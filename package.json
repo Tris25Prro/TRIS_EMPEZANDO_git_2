@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/Tris25Prro/TRIS_EMPEZANDO_git_2/issues"
   },
-  "homepage": "https://github.com/Tris25Prro/TRIS_EMPEZANDO_git_2#readme"
+  "homepage": "https://github.com/Tris25Prro/TRIS_EMPEZANDO_git_2#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.5.0"
+  }
 }
